@@ -3,18 +3,22 @@
 ## working...
 3티어
 
-- [ ] alb + auto scaling
+- [X] alb + auto scaling
 -  [ ] autoscaling policy + predictive
--  [ ] stress -> alb 이벤트
+-  [X] stress -> alb 이벤트
 -  [ ] nlb + auto scaling
 -  [ ] stress -> nlb 이벤트
--  [ ] mongodb pss
 -  [ ] on-demand video
+-  [ ] mongodb pss
 -  [ ] EC2 -> EIP
 -  [ ] alb -> Route53 + 가비아
 -  [ ] DB 보안?
 -  [ ] `.tfstate` -> S3에 남기기
 -  [ ] 모듈화
+-  [ ] codecommit 연동
 
 ## learned
 1. region별/AZ별 지원되는 리소스의 종류 다르다 $\to$ 구현 전 확실히 고려할 것
+
+## trouble shooting
+1. autoscaling group $\to$ unhealthy 이슈, 결국 health checkf를 ELB 에서 EC2로 변경해서 해결 성공(몇 없는 자료 무작정 따라해서 문제 생김, 운좋게 해외 사이트에서 찾아서 해결)
