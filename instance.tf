@@ -7,6 +7,11 @@ resource "aws_instance" "tf-ec2-pub-a-bastion" {
     aws_security_group.tf-sg-pub-bastion.id
   ]
 
+  provisioner "file" {
+    source      = var.PATH_TO_PRIVATE_KEY
+    destination = "~/${var.PATH_TO_PRIVATE_KEY}"
+  }
+
   tags = {
     Name     = "tf-ec2-pub-a-bastion"
     Schedule = "off-at-22"
