@@ -14,7 +14,7 @@
 -  [ ] alb -> Route53 + 가비아
 -  [ ] DB 보안?
 -  [ ] `.tfstate` -> S3에 남기기
--  [ ] 모듈화
+-  [X] 모듈화
 -  [ ] codecommit 연동
 
 ## learned
