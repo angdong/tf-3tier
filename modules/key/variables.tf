@@ -1,0 +1,1 @@
+variable "path_public_key" {}

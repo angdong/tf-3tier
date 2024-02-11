@@ -1,6 +1,6 @@
 # VPC
 resource "aws_vpc" "tf-vpc" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.vpc_cidr
 
   tags = {
     Name = "tf-vpc"
@@ -10,9 +10,9 @@ resource "aws_vpc" "tf-vpc" {
 # Subnets
 resource "aws_subnet" "tf-sub-pub-a" {
   vpc_id                  = aws_vpc.tf-vpc.id
-  cidr_block              = "10.0.0.0/24"
+  cidr_block              = var.public_subnet_az1_cidr
   map_public_ip_on_launch = "true"
-  availability_zone       = "${var.AWS_REGION}a"
+  availability_zone       = "${var.region}a"
 
   tags = {
     Name = "tf-sub-pub-a"
@@ -20,8 +20,8 @@ resource "aws_subnet" "tf-sub-pub-a" {
 }
 resource "aws_subnet" "tf-sub-pri-a-web" {
   vpc_id            = aws_vpc.tf-vpc.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = "${var.AWS_REGION}a"
+  cidr_block        = var.private_web_subnet_az1_cidr
+  availability_zone = "${var.region}a"
 
   tags = {
     Name = "tf-sub-pri-a-web"
@@ -29,8 +29,8 @@ resource "aws_subnet" "tf-sub-pri-a-web" {
 }
 resource "aws_subnet" "tf-sub-pri-a-was" {
   vpc_id            = aws_vpc.tf-vpc.id
-  cidr_block        = "10.0.2.0/24"
-  availability_zone = "${var.AWS_REGION}a"
+  cidr_block        = var.private_was_subnet_az1_cidr
+  availability_zone = "${var.region}a"
 
   tags = {
     Name = "tf-sub-pri-a-was"
@@ -38,20 +38,20 @@ resource "aws_subnet" "tf-sub-pri-a-was" {
 }
 resource "aws_subnet" "tf-sub-pri-a-db" {
   vpc_id            = aws_vpc.tf-vpc.id
-  cidr_block        = "10.0.3.0/24"
-  availability_zone = "${var.AWS_REGION}a"
+  cidr_block        = var.private_data_subnet_az1_cidr
+  availability_zone = "${var.region}a"
 
   tags = {
     Name = "tf-sub-pri-a-db"
   }
 }
 
-# ${var.AWS_REGION}c
+# ${var.region}c
 resource "aws_subnet" "tf-sub-pub-c" {
   vpc_id                  = aws_vpc.tf-vpc.id
-  cidr_block              = "10.0.10.0/24"
+  cidr_block              = var.public_subnet_az2_cidr
   map_public_ip_on_launch = "true"
-  availability_zone       = "${var.AWS_REGION}c"
+  availability_zone       = "${var.region}c"
 
   tags = {
     Name = "tf-sub-pub-c"
@@ -59,8 +59,8 @@ resource "aws_subnet" "tf-sub-pub-c" {
 }
 resource "aws_subnet" "tf-sub-pri-c-web" {
   vpc_id            = aws_vpc.tf-vpc.id
-  cidr_block        = "10.0.11.0/24"
-  availability_zone = "${var.AWS_REGION}c"
+  cidr_block        = var.private_web_subnet_az2_cidr
+  availability_zone = "${var.region}c"
 
   tags = {
     Name = "tf-sub-pri-c-web"
@@ -68,8 +68,8 @@ resource "aws_subnet" "tf-sub-pri-c-web" {
 }
 resource "aws_subnet" "tf-sub-pri-c-was" {
   vpc_id            = aws_vpc.tf-vpc.id
-  cidr_block        = "10.0.12.0/24"
-  availability_zone = "${var.AWS_REGION}c"
+  cidr_block        = var.private_was_subnet_az2_cidr
+  availability_zone = "${var.region}c"
 
   tags = {
     Name = "tf-sub-pri-c-was"
@@ -77,8 +77,8 @@ resource "aws_subnet" "tf-sub-pri-c-was" {
 }
 resource "aws_subnet" "tf-sub-pri-c-db" {
   vpc_id            = aws_vpc.tf-vpc.id
-  cidr_block        = "10.0.13.0/24"
-  availability_zone = "${var.AWS_REGION}c"
+  cidr_block        = var.private_was_subnet_az2_cidr
+  availability_zone = "${var.region}c"
 
   tags = {
     Name = "tf-sub-pri-c-db"

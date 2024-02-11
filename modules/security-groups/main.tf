@@ -1,7 +1,7 @@
 resource "aws_security_group" "tf-sg-pub-bastion" {
   name        = "tf-sg-pub-bastion"
   description = "tf-sg-pub-bastion"
-  vpc_id      = aws_vpc.tf-vpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 22
@@ -26,7 +26,7 @@ resource "aws_security_group" "tf-sg-pub-bastion" {
 resource "aws_security_group" "tf-sg-pri-web" {
   name        = "tf-sg-pri-web"
   description = "tf-sg-pri-web"
-  vpc_id      = aws_vpc.tf-vpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port       = 22
@@ -59,7 +59,7 @@ resource "aws_security_group" "tf-sg-pri-web" {
 resource "aws_security_group" "tf-sg-pri-was" {
   name        = "tf-sg-pri-was"
   description = "tf-sg-pri-was"
-  vpc_id      = aws_vpc.tf-vpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port       = 22
@@ -92,7 +92,7 @@ resource "aws_security_group" "tf-sg-pri-was" {
 resource "aws_security_group" "tf-sg-pri-db" {
   name        = "tf-sg-pri-db"
   description = "tf-sg-pri-db"
-  vpc_id      = aws_vpc.tf-vpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port       = 22
@@ -119,5 +119,36 @@ resource "aws_security_group" "tf-sg-pri-db" {
 
   tags = {
     Name = "tf-sg-pri-db"
+  }
+}
+
+# alb sg
+resource "aws_security_group" "tf-sg-alb-web" {
+  name        = "tf-sg-alb-web"
+  description = "tf-sg-alb-web"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.tf-sg-pub-bastion.id]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "tf-sg-alb-web"
   }
 }
