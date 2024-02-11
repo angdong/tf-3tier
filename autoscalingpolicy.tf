@@ -1,4 +1,4 @@
-# scale up alarm
+# scale out alarm
 resource "aws_autoscaling_policy" "tf-cpu-policy" {
   name                   = "tf-cpu-policy"
   autoscaling_group_name = aws_autoscaling_group.tf-ec2-asg-web.name
@@ -27,7 +27,7 @@ resource "aws_cloudwatch_metric_alarm" "example-cpu-alarm" {
   alarm_actions   = [aws_autoscaling_policy.tf-cpu-policy.arn]
 }
 
-# scale down alarm
+# scale in alarm
 resource "aws_autoscaling_policy" "tf-cpu-policy-scaledown" {
   name                   = "tf-cpu-policy-scaledown"
   autoscaling_group_name = aws_autoscaling_group.tf-ec2-asg-web.name
@@ -54,4 +54,28 @@ resource "aws_cloudwatch_metric_alarm" "tf-cpu-alarm-scaledown" {
 
   actions_enabled = true
   alarm_actions   = [aws_autoscaling_policy.tf-cpu-policy-scaledown.arn]
+}
+
+# predictive scale
+resource "aws_autoscaling_policy" "tf-cpu-policy-pred" {
+  name                   = "tf-cpu-policy-pred"
+  policy_type = "PredictiveScaling"
+  autoscaling_group_name = aws_autoscaling_group.tf-ec2-asg-web.name
+  predictive_scaling_configuration {
+    metric_specification {
+      target_value = 32
+      predefined_scaling_metric_specification {
+        predefined_metric_type = "ASGAverageCPUUtilization"
+        resource_label         = "testLabel"
+      }
+      predefined_load_metric_specification {
+        predefined_metric_type = "ASGTotalCPUUtilization"
+        resource_label         = "testLabel"
+      }
+    }
+    mode                          = "ForecastAndScale"
+    scheduling_buffer_time        = 10
+    max_capacity_breach_behavior  = "IncreaseMaxCapacity"
+    max_capacity_buffer           = 10
+  }
 }

@@ -4,7 +4,7 @@
 3티어
 
 - [X] alb + auto scaling
--  [ ] autoscaling policy + predictive
+-  [X] autoscaling policy + predictive
 -  [X] stress -> alb 이벤트
 -  [ ] nlb + auto scaling
 -  [ ] stress -> nlb 이벤트
