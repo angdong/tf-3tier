@@ -7,10 +7,17 @@ resource "aws_instance" "tf-ec2-pub-a-bastion" {
     aws_security_group.tf-sg-pub-bastion.id
   ]
 
-  provisioner "file" {
-    source      = var.PATH_TO_PRIVATE_KEY
-    destination = "~/${var.PATH_TO_PRIVATE_KEY}"
-  }
+  # provisioner "file" {
+  #   source      = var.PATH_TO_PRIVATE_KEY
+  #   destination = "~/${var.PATH_TO_PRIVATE_KEY}"
+  # }
+
+  # connection {
+  #   type = "ssh"
+  #   user = "ec2-user"
+  #   private_key = file(var.PATH_TO_PRIVATE_KEY)
+  #   host = self.public_dns
+  # }
 
   tags = {
     Name     = "tf-ec2-pub-a-bastion"
