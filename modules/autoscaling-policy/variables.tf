@@ -1,0 +1,1 @@
+variable "atg_web_name" {}

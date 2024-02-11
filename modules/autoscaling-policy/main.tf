@@ -1,16 +1,16 @@
 # scale out alarm
-resource "aws_autoscaling_policy" "tf-cpu-policy" {
-  name                   = "tf-cpu-policy"
-  autoscaling_group_name = aws_autoscaling_group.tf-ec2-asg-web.name
+resource "aws_autoscaling_policy" "tf-cpu-policy-scale-out" {
+  name                   = "tf-cpu-policy-scale-out"
+  autoscaling_group_name = var.atg_web_name
   adjustment_type        = "ChangeInCapacity"
   scaling_adjustment     = "1" # Scale-out
   cooldown               = "60"
   policy_type            = "SimpleScaling"
 }
 
-resource "aws_cloudwatch_metric_alarm" "example-cpu-alarm" {
-  alarm_name          = "tf-cpu-alarm"
-  alarm_description   = "tf-cpu-alarm"
+resource "aws_cloudwatch_metric_alarm" "tf-cpu-alarm-scale-out" {
+  alarm_name          = "tf-cpu-alarm-scale-out"
+  alarm_description   = "tf-cpu-alarm-scale-out"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "2"
   metric_name         = "CPUUtilization"
@@ -20,7 +20,7 @@ resource "aws_cloudwatch_metric_alarm" "example-cpu-alarm" {
   threshold           = "40"
 
   dimensions = {
-    "AutoScalingGroupName" = aws_autoscaling_group.tf-ec2-asg-web.name
+    "AutoScalingGroupName" = var.atg_web_name
   }
 
   actions_enabled = true
@@ -28,18 +28,18 @@ resource "aws_cloudwatch_metric_alarm" "example-cpu-alarm" {
 }
 
 # scale in alarm
-resource "aws_autoscaling_policy" "tf-cpu-policy-scaledown" {
+resource "aws_autoscaling_policy" "tf-cpu-policy-scale-in" {
   name                   = "tf-cpu-policy-scaledown"
-  autoscaling_group_name = aws_autoscaling_group.tf-ec2-asg-web.name
+  autoscaling_group_name = var.atg_web_name
   adjustment_type        = "ChangeInCapacity"
   scaling_adjustment     = "-1"
   cooldown               = "300"
   policy_type            = "SimpleScaling"
 }
 
-resource "aws_cloudwatch_metric_alarm" "tf-cpu-alarm-scaledown" {
-  alarm_name          = "tf-cpu-alarm-scaledown"
-  alarm_description   = "tf-cpu-alarm-scaledown"
+resource "aws_cloudwatch_metric_alarm" "tf-cpu-alarm-scale-in" {
+  alarm_name          = "tf-cpu-alarm-scale-in"
+  alarm_description   = "tf-cpu-alarm-scale-in"
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = "2"
   metric_name         = "CPUUtilization"
@@ -49,7 +49,7 @@ resource "aws_cloudwatch_metric_alarm" "tf-cpu-alarm-scaledown" {
   threshold           = "5"
 
   dimensions = {
-    "AutoScalingGroupName" = aws_autoscaling_group.tf-ec2-asg-web.name
+    "AutoScalingGroupName" = var.atg_web_name
   }
 
   actions_enabled = true
@@ -60,7 +60,7 @@ resource "aws_cloudwatch_metric_alarm" "tf-cpu-alarm-scaledown" {
 resource "aws_autoscaling_policy" "tf-cpu-policy-pred" {
   name                   = "tf-cpu-policy-pred"
   policy_type = "PredictiveScaling"
-  autoscaling_group_name = aws_autoscaling_group.tf-ec2-asg-web.name
+  autoscaling_group_name = var.atg_web_name
   predictive_scaling_configuration {
     metric_specification {
       target_value = 32
