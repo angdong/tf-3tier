@@ -39,7 +39,7 @@ resource "aws_alb_listener" "tf-alt-web" {
 # NLB for WAS
 resource "aws_alb" "tf-nlb-was" {
   name               = "tf-nlb-was"
-  internal           = true # 내부 접근
+  internal           = false
   load_balancer_type = "network"
   subnets            = [
     var.private_web_subnet_az1_id,
@@ -50,36 +50,25 @@ resource "aws_alb" "tf-nlb-was" {
   }
 }
 
-# 타겟그룹
-# was에서 진행 될 tomcat의 경우, 8080 port로 통신된다.
-resource "aws_alb_target_group" "tf-ntg-was" {
-  name        = "tf-ntg-was"
+# 타겟그룹 생성
+resource "aws_alb_target_group" "tf-atg-was" {
+  name        = "tf-atg-was"
   port        = "8080"
   protocol    = "TCP"
   vpc_id      = var.vpc_id
   target_type = "instance"
   tags = {
-    Name = "tf-ntg-was"
+    Name = "tf-atg-was"
   }
 }
 
-resource "aws_alb_listener" "tf-nlt-was" {
+# 리스너 생성
+resource "aws_alb_listener" "tf-alt-was" {
   load_balancer_arn = aws_alb.tf-nlb-was.arn
-  port              = "80"
+  port              = "8080"
   protocol          = "TCP"
   default_action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.tf-ntg-was.arn
+    target_group_arn = aws_alb_target_group.tf-atg-was.arn
   }
-}
-
-resource "aws_lb_target_group_attachment" "tf-ntt-was1" {
-  target_group_arn = aws_alb_target_group.tf-ntg-was.arn
-  target_id        = var.tf_ec2_was1_id
-  port             = 8080
-}
-resource "aws_lb_target_group_attachment" "tf-ntt-was2" {
-  target_group_arn = aws_alb_target_group.tf-ntg-was.arn
-  target_id        = var.tf_ec2_was2_id
-  port             = 8080
 }

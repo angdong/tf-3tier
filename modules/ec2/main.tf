@@ -57,34 +57,45 @@ resource "aws_autoscaling_group" "tf-ec2-asg-web" {
   }
 }
 
-# WAS EC2
-resource "aws_instance" "tf-ec2-pri-a-was1" {
-  ami           = var.ec2_image_was
+# autoscaling was EC2
+resource "aws_launch_configuration" "tf-ec2-config-was" {
+  name_prefix          = "tf-ec2-asg-was"
+  image_id      = var.ec2_image_was
   instance_type = var.instance_type
-  subnet_id     = var.private_was_subnet_az1_id
-  key_name      = var.key_name
-  vpc_security_group_ids = [
+  security_groups = [
     var.tf_sg_was_id
   ]
-
-  tags = {
-    Name     = "tf-ec2-pri-a-was1"
-    Schedule = var.schedule_tag
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
-resource "aws_instance" "tf-ec2-pri-c-was2" {
-  ami           = var.ec2_image_was
-  instance_type = var.instance_type
-  subnet_id     = var.private_was_subnet_az2_id
-  key_name      = var.key_name
-  vpc_security_group_ids = [
-    var.tf_sg_was_id
+resource "aws_autoscaling_group" "tf-ec2-asg-was" {
+  name                      = "tf-ec2-asg-was"
+  vpc_zone_identifier = [
+    var.private_was_subnet_az1_id,
+    var.private_was_subnet_az2_id
   ]
+  launch_configuration = aws_launch_configuration.tf-ec2-config-was.name
+  min_size                  = 2
+  max_size                  = 4
+  health_check_grace_period = 300
+  health_check_type         = "EC2"
+  target_group_arns = [
+    var.tf_atg_was_arn
+  ]
+  force_delete = true
 
-  tags = {
-    Name     = "tf-ec2-pri-c-was2"
-    Schedule = var.schedule_tag
+  tag {
+    key                 = "Name"
+    value               = "tf-ec2-asg-was"
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "Schedule"
+    value               = var.schedule_tag
+    propagate_at_launch = true
   }
 }
 

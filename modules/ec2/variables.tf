@@ -33,3 +33,5 @@ variable "tf_sg_alb_web_id" {}
 
 # ALB target group
 variable "tf_atg_web_arn" {}
+# NLB target group
+variable "tf_atg_was_arn" {}

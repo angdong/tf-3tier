@@ -47,8 +47,6 @@ module "load-balancer" {
     public_subnet_az2_id = module.vpc.public_subnet_az2_id
     private_web_subnet_az1_id = module.vpc.private_was_subnet_az1_id
     private_web_subnet_az2_id = module.vpc.private_was_subnet_az2_id
-    tf_ec2_was1_id = module.ec2.tf_ec2_was1_id
-    tf_ec2_was2_id = module.ec2.tf_ec2_was2_id
 }
 
 # EC2
@@ -75,10 +73,12 @@ module "ec2" {
     tf_sg_alb_web_id = module.security-groups.tf_sg_alb_web_id
 
     tf_atg_web_arn = module.load-balancer.tf_atg_web_arn
+    tf_atg_was_arn = module.load-balancer.tf_atg_was_arn
 }
 
 # ASG policy
 module "autoscaling-policy" {
     source = "./modules/autoscaling-policy"
     atg_web_name = module.ec2.atg_web_name
+    atg_was_name = module.ec2.atg_was_name
 }
