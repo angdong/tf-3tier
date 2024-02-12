@@ -24,7 +24,7 @@ resource "aws_cloudwatch_metric_alarm" "tf-cpu-alarm-scale-out" {
   }
 
   actions_enabled = true
-  alarm_actions   = [aws_autoscaling_policy.tf-cpu-policy.arn]
+  alarm_actions   = [aws_autoscaling_policy.tf-cpu-policy-scale-out.arn]
 }
 
 # scale in alarm
@@ -53,7 +53,7 @@ resource "aws_cloudwatch_metric_alarm" "tf-cpu-alarm-scale-in" {
   }
 
   actions_enabled = true
-  alarm_actions   = [aws_autoscaling_policy.tf-cpu-policy-scaledown.arn]
+  alarm_actions   = [aws_autoscaling_policy.tf-cpu-policy-scale-in.arn]
 }
 
 # predictive scale

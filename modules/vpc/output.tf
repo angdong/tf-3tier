@@ -19,24 +19,24 @@ output "private_web_subnet_az1_id" {
 }
 
 output "private_web_subnet_az2_id" {
-    value = aws_subnet.tf-sub-pri-c-web
+    value = aws_subnet.tf-sub-pri-c-web.id
 }
 
 output "private_was_subnet_az1_id" {
-    value = aws_subnet.tf-sub-pri-a-was
+    value = aws_subnet.tf-sub-pri-a-was.id
 }
 
 output "private_was_subnet_az2_id" {
-    value = aws_subnet.tf-sub-pri-c-was
+    value = aws_subnet.tf-sub-pri-c-was.id
 }
 output "private_data_subnet_az1_id" {
-    value = aws_subnet.tf-sub-pri-a-db
+    value = aws_subnet.tf-sub-pri-a-db.id
 }
 
 output "private_data_subnet_az2_id" {
-    value = aws_subnet.tf-sub-pri-c-db
+    value = aws_subnet.tf-sub-pri-c-db.id
 }
 
 output "internet_gateway" {
-    value = aws_internet_gateway.internet_gateway
+    value = aws_internet_gateway.tf-igw
 }

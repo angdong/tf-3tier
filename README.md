@@ -9,12 +9,14 @@
 -  [ ] nlb + auto scaling
 -  [ ] stress -> nlb 이벤트
 -  [ ] on-demand video
+
 -  [ ] mongodb pss
 -  [ ] EC2 -> EIP
 -  [ ] alb -> Route53 + 가비아
 -  [ ] DB 보안?
 -  [ ] `.tfstate` -> S3에 남기기
 -  [X] 모듈화
+-  [ ] 인스턴스들 구체적인 스펙에 대한 이유 생각
 -  [ ] codecommit 연동
 
 ## learned

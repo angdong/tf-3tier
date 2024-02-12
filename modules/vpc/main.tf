@@ -77,7 +77,7 @@ resource "aws_subnet" "tf-sub-pri-c-was" {
 }
 resource "aws_subnet" "tf-sub-pri-c-db" {
   vpc_id            = aws_vpc.tf-vpc.id
-  cidr_block        = var.private_was_subnet_az2_cidr
+  cidr_block        = var.private_data_subnet_az2_cidr
   availability_zone = "${var.region}c"
 
   tags = {
