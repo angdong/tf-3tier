@@ -6,10 +6,10 @@
 - [X] alb + auto scaling
 -  [X] autoscaling policy + predictive
 -  [X] stress -> alb 이벤트
--  [ ] nlb + auto scaling
--  [ ] stress -> nlb 이벤트
+-  [X] nlb + auto scaling
+-  [X] stress -> nlb 이벤트
 -  [ ] on-demand video
-
+-  [ ] cloudwatch SNS (scaling policy에 대한) 
 -  [ ] mongodb pss
 -  [ ] EC2 -> EIP
 -  [ ] alb -> Route53 + 가비아
