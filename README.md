@@ -8,12 +8,15 @@
 -  [X] stress -> alb 이벤트
 -  [X] nlb + auto scaling
 -  [X] stress -> nlb 이벤트
--  [ ] on-demand video
+-  [X] on-demand video
+-  [ ] `tf` on-demand video with cloudfront
+-  [ ] merge on-demand repo & tf-3tier
 -  [ ] cloudwatch SNS (scaling policy에 대한) 
 -  [ ] mongodb pss
 -  [ ] EC2 -> EIP
 -  [ ] alb -> Route53 + 가비아
 -  [ ] DB 보안?
+-  [ ] DB PSS
 -  [ ] `.tfstate` -> S3에 남기기
 -  [X] 모듈화
 -  [ ] 인스턴스들 구체적인 스펙에 대한 이유 생각
