@@ -7,7 +7,7 @@ resource "aws_eip" "tf-nip" {
 
 resource "aws_nat_gateway" "tf-ngw" {
   allocation_id = aws_eip.tf-nip.id
-  subnet_id     = var.public_subnet_az1_id
+  subnet_id     = var.public_subnet_az2_id
   tags = {
     Name = "tf-ngw"
   }
